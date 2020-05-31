@@ -1,5 +1,7 @@
 package tenniskata
 
+import "fmt"
+
 type tennisGame2 struct {
 	P1point int
 	P2point int
@@ -18,24 +20,24 @@ func TennisGame2(player1Name string, player2Name string) TennisGame {
 	return game
 }
 
+func (game *tennisGame2) GetEquality() string {
+	score := [4]string{"Love", "Fifteen", "Thirty"}
+	if game.P1point < 3 {
+		return fmt.Sprint(score[game.P1point], "-All")
+	}
+	return "Deuce"
+
+}
+
 func (game *tennisGame2) GetScore() string {
 	score := ""
-	if game.P1point == game.P2point && game.P1point < 4 {
-		if game.P1point == 0 {
-			score = "Love"
-		}
-		if game.P1point == 1 {
-			score = "Fifteen"
-		}
-		if game.P1point == 2 {
-			score = "Thirty"
-		}
-		score += "-All"
-	}
-	if game.P1point == game.P2point && game.P1point >= 3 {
-		score = "Deuce"
+
+	//All deuce Equality
+	if game.P1point == game.P2point {
+		return game.GetEquality()
 	}
 
+	//love 000000
 	if game.P1point > 0 && game.P2point == 0 {
 		if game.P1point == 1 {
 			game.P1res = "Fifteen"
@@ -65,6 +67,7 @@ func (game *tennisGame2) GetScore() string {
 		score = game.P1res + "-" + game.P2res
 	}
 
+	//middle
 	if game.P1point > game.P2point && game.P1point < 4 {
 		if game.P1point == 2 {
 			game.P1res = "Thirty"
@@ -96,6 +99,7 @@ func (game *tennisGame2) GetScore() string {
 		score = game.P1res + "-" + game.P2res
 	}
 
+	//advantage
 	if game.P1point > game.P2point && game.P2point >= 3 {
 		score = "Advantage player1"
 	}
@@ -104,6 +108,7 @@ func (game *tennisGame2) GetScore() string {
 		score = "Advantage player2"
 	}
 
+	//win
 	if game.P1point >= 4 && game.P2point >= 0 && (game.P1point-game.P2point) >= 2 {
 		score = "Win for player1"
 	}
