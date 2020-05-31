@@ -40,15 +40,18 @@ func (game *tennisGame1) GetScore() string {
 		}
 	} else if game.m_score1 >= 4 || game.m_score2 >= 4 {
 		minusResult := game.m_score1 - game.m_score2
-		if minusResult == 1 {
+
+		switch {
+		case minusResult == 1:
 			score = "Advantage player1"
-		} else if minusResult == -1 {
+		case minusResult == -1:
 			score = "Advantage player2"
-		} else if minusResult >= 2 {
+		case minusResult >= 2:
 			score = "Win for player1"
-		} else {
+		default:
 			score = "Win for player2"
 		}
+
 	} else {
 		for i := 1; i < 3; i++ {
 			if i == 1 {
