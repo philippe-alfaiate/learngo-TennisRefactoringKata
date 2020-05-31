@@ -15,6 +15,7 @@ type tennisGame2 struct {
 }
 
 func TennisGame2(player1Name string, player2Name string) TennisGame {
+
 	game := &tennisGame2{
 		player1Name: player1Name,
 		player2Name: player2Name,
@@ -30,8 +31,8 @@ func (game *tennisGame2) GetEquality() string {
 	if game.P1point < 3 {
 		return game.P1res + "-All"
 	}
-	return "Deuce"
 
+	return "Deuce"
 }
 
 func (game *tennisGame2) GetWinner() string {
@@ -39,14 +40,16 @@ func (game *tennisGame2) GetWinner() string {
 	if game.P1point-game.P2point > 0 {
 		return "Win for " + game.player1Name
 	}
-	return "Win for " + game.player2Name
 
+	return "Win for " + game.player2Name
 }
 
 func (game *tennisGame2) GetAvantage() string {
+
 	if game.P1point > game.P2point {
 		return "Advantage " + game.player1Name
 	}
+
 	return "Advantage " + game.player2Name
 }
 
@@ -78,14 +81,18 @@ func (game *tennisGame2) GetScore() string {
 }
 
 func (game *tennisGame2) UpdateP1Score() {
+
 	game.P1point++
+
 	if game.P1point < 4 {
 		game.P1res = scoreMap[game.P1point]
 	}
 }
 
 func (game *tennisGame2) UpdateP2Score() {
+
 	game.P2point++
+
 	if game.P2point < 4 {
 		game.P2res = scoreMap[game.P2point]
 	}
