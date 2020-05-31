@@ -34,12 +34,6 @@ func (game *tennisGame2) GetEquality() string {
 
 }
 
-func (game *tennisGame2) GetSomeLove() string {
-
-	return game.P1res + "-" + game.P2res
-
-}
-
 func (game *tennisGame2) GetWinner() string {
 
 	if game.P1point-game.P2point > 0 {
@@ -56,29 +50,30 @@ func (game *tennisGame2) GetAvantage() string {
 	return "Advantage " + game.player2Name
 }
 
+func (game *tennisGame2) hasWinner() bool {
+	return (game.P1point >= 4 || game.P2point >= 4) && math.Abs(float64(game.P1point-game.P2point)) >= 2
+}
+func (game *tennisGame2) hasAdvantage() bool {
+	return game.P1point >= 3 && game.P2point >= 3 && game.P1point != game.P2point
+}
+func (game *tennisGame2) hasEquality() bool {
+	return game.P1point == game.P2point
+}
+
 func (game *tennisGame2) GetScore() string {
 
-	//Winner
-	if (game.P1point >= 4 || game.P2point >= 4) && math.Abs(float64(game.P1point-game.P2point)) >= 2 {
+	if game.hasWinner() {
 		return game.GetWinner()
 	}
 
-	//advantage
-	if game.P1point >= 3 && game.P2point >= 3 && game.P1point != game.P2point {
+	if game.hasAdvantage() {
 		return game.GetAvantage()
 	}
 
-	//All deuce Equality
-	if game.P1point == game.P2point {
+	if game.hasEquality() {
 		return game.GetEquality()
 	}
 
-	//love
-	if game.P1point == 0 || game.P2point == 0 {
-		return game.GetSomeLove()
-	}
-
-	//middle
 	return game.P1res + "-" + game.P2res
 }
 
