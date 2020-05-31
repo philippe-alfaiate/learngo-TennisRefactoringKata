@@ -113,22 +113,6 @@ func (game *tennisGame2) GetScore() string {
 	return score
 }
 
-func (game *tennisGame2) SetP1Score(number int) {
-
-	for i := 0; i < number; i++ {
-		game.P1Score()
-	}
-
-}
-
-func (game *tennisGame2) SetP2Score(number int) {
-
-	for i := 0; i < number; i++ {
-		game.P2Score()
-	}
-
-}
-
 func (game *tennisGame2) P1Score() {
 	game.P1point++
 }
