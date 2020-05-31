@@ -1,5 +1,7 @@
 package tenniskata
 
+import "fmt"
+
 type tennisGame1 struct {
 	m_score1    int
 	m_score2    int
@@ -26,7 +28,6 @@ func (game *tennisGame1) WonPoint(playerName string) {
 
 func (game *tennisGame1) GetScore() string {
 	score := ""
-	tempScore := 0
 	if game.m_score1 == game.m_score2 {
 		switch game.m_score1 {
 		case 0:
@@ -40,7 +41,6 @@ func (game *tennisGame1) GetScore() string {
 		}
 	} else if game.m_score1 >= 4 || game.m_score2 >= 4 {
 		minusResult := game.m_score1 - game.m_score2
-
 		switch {
 		case minusResult == 1:
 			score = "Advantage player1"
@@ -53,24 +53,8 @@ func (game *tennisGame1) GetScore() string {
 		}
 
 	} else {
-		for i := 1; i < 3; i++ {
-			if i == 1 {
-				tempScore = game.m_score1
-			} else {
-				score += "-"
-				tempScore = game.m_score2
-			}
-			switch tempScore {
-			case 0:
-				score += "Love"
-			case 1:
-				score += "Fifteen"
-			case 2:
-				score += "Thirty"
-			case 3:
-				score += "Forty"
-			}
-		}
+		array := [4]string{"Love", "Fifteen", "Thirty", "Forty"}
+		score = fmt.Sprintf("%s-%s", array[game.m_score1], array[game.m_score2])
 	}
 	return score
 }
