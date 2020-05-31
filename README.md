@@ -1,1 +1,1 @@
-# learngo_TennisRefactoringKata
+# learngo-TennisRefactoringKata
