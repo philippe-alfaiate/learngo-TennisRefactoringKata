@@ -28,12 +28,19 @@ func (game *tennisGame1) WonPoint(playerName string) {
 	}
 }
 
+//Constante
 const (
-	ADVANTAGE string = "Advantage"
-	WIN              = "Win for"
-	ALL              = "All"
+	advantage  string = "Advantage"
+	win               = "Win for"
+	all               = "All"
+	score0            = "Love"
+	score1            = "Fifteen"
+	score2            = "Thirty"
+	score3            = "Forty"
+	scoreDeuce        = "Deuce"
 )
 
+//GetFormatedScore Format output string of score
 func GetFormatedScore(fisrt string, second string, separator ...string) string {
 	def := " "
 	if separator != nil {
@@ -44,25 +51,25 @@ func GetFormatedScore(fisrt string, second string, separator ...string) string {
 
 func (game *tennisGame1) GetScore() string {
 
-	score := [4]string{"Love", "Fifteen", "Thirty", "Forty"}
+	score := [4]string{score0, score1, score2, score3}
 
 	if game.m_score1 == game.m_score2 {
 		if game.m_score1 > 2 {
-			return "Deuce"
+			return scoreDeuce
 		}
-		return GetFormatedScore(score[game.m_score1], ALL, "-")
+		return GetFormatedScore(score[game.m_score1], all, "-")
 	}
 	if game.m_score1 >= 4 || game.m_score2 >= 4 {
 		minusResult := game.m_score1 - game.m_score2
 		switch {
 		case minusResult == 1:
-			return GetFormatedScore(ADVANTAGE, game.player1Name)
+			return GetFormatedScore(advantage, game.player1Name)
 		case minusResult == -1:
-			return GetFormatedScore(ADVANTAGE, game.player2Name)
+			return GetFormatedScore(advantage, game.player2Name)
 		case minusResult >= 2:
-			return GetFormatedScore(WIN, game.player1Name)
+			return GetFormatedScore(win, game.player1Name)
 		default:
-			return GetFormatedScore(WIN, game.player2Name)
+			return GetFormatedScore(win, game.player2Name)
 		}
 	}
 
