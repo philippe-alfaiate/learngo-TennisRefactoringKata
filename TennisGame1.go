@@ -27,34 +27,29 @@ func (game *tennisGame1) WonPoint(playerName string) {
 }
 
 func (game *tennisGame1) GetScore() string {
-	score := ""
+
+	array := [4]string{"Love", "Fifteen", "Thirty", "Forty"}
+
 	if game.m_score1 == game.m_score2 {
-		switch game.m_score1 {
-		case 0:
-			score = "Love-All"
-		case 1:
-			score = "Fifteen-All"
-		case 2:
-			score = "Thirty-All"
-		default:
-			score = "Deuce"
+		if game.m_score1 > 2 {
+			return "Deuce"
 		}
+		return fmt.Sprintf("%s-All", array[game.m_score1])
 	} else if game.m_score1 >= 4 || game.m_score2 >= 4 {
 		minusResult := game.m_score1 - game.m_score2
 		switch {
 		case minusResult == 1:
-			score = "Advantage player1"
+			return fmt.Sprint("Advantage ", game.player1Name)
 		case minusResult == -1:
-			score = "Advantage player2"
+			return fmt.Sprint("Advantage ", game.player2Name)
 		case minusResult >= 2:
-			score = "Win for player1"
+			return fmt.Sprint("Win for ", game.player1Name)
 		default:
-			score = "Win for player2"
+			return fmt.Sprint("Win for ", game.player2Name)
 		}
 
-	} else {
-		array := [4]string{"Love", "Fifteen", "Thirty", "Forty"}
-		score = fmt.Sprintf("%s-%s", array[game.m_score1], array[game.m_score2])
 	}
-	return score
+
+	return fmt.Sprintf("%s-%s", array[game.m_score1], array[game.m_score2])
+
 }
