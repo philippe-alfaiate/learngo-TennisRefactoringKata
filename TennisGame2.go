@@ -1,6 +1,8 @@
 package tenniskata
 
-import "fmt"
+import "math"
+
+var scoreMap = [4]string{"Love", "Fifteen", "Thirty", "Forty"}
 
 type tennisGame2 struct {
 	P1point int
@@ -15,17 +17,35 @@ type tennisGame2 struct {
 func TennisGame2(player1Name string, player2Name string) TennisGame {
 	game := &tennisGame2{
 		player1Name: player1Name,
-		player2Name: player2Name}
+		player2Name: player2Name,
+		P1res:       scoreMap[0],
+		P2res:       scoreMap[0],
+	}
 
 	return game
 }
 
 func (game *tennisGame2) GetEquality() string {
-	score := [4]string{"Love", "Fifteen", "Thirty"}
+
 	if game.P1point < 3 {
-		return fmt.Sprint(score[game.P1point], "-All")
+		return game.P1res + "-All"
 	}
 	return "Deuce"
+
+}
+
+func (game *tennisGame2) GetSomeLove() string {
+
+	return game.P1res + "-" + game.P2res
+
+}
+
+func (game *tennisGame2) GetWinner() string {
+
+	if game.P1point-game.P2point > 0 {
+		return "Win for " + game.player1Name
+	}
+	return "Win for " + game.player2Name
 
 }
 
@@ -37,66 +57,25 @@ func (game *tennisGame2) GetScore() string {
 		return game.GetEquality()
 	}
 
-	//love 000000
-	if game.P1point > 0 && game.P2point == 0 {
-		if game.P1point == 1 {
-			game.P1res = "Fifteen"
-		}
-		if game.P1point == 2 {
-			game.P1res = "Thirty"
-		}
-		if game.P1point == 3 {
-			game.P1res = "Forty"
-		}
-
-		game.P2res = "Love"
-		score = game.P1res + "-" + game.P2res
+	//Winner
+	if (game.P1point >= 4 || game.P2point >= 4) && math.Abs(float64(game.P1point-game.P2point)) >= 2 {
+		return game.GetWinner()
 	}
-	if game.P2point > 0 && game.P1point == 0 {
-		if game.P2point == 1 {
-			game.P2res = "Fifteen"
-		}
-		if game.P2point == 2 {
-			game.P2res = "Thirty"
-		}
-		if game.P2point == 3 {
-			game.P2res = "Forty"
-		}
 
-		game.P1res = "Love"
-		score = game.P1res + "-" + game.P2res
+	//love
+	if game.P1point == 0 || game.P2point == 0 {
+		return game.GetSomeLove()
 	}
 
 	//middle
+
 	if game.P1point > game.P2point && game.P1point < 4 {
-		if game.P1point == 2 {
-			game.P1res = "Thirty"
-		}
-		if game.P1point == 3 {
-			game.P1res = "Forty"
-		}
-		if game.P2point == 1 {
-			game.P2res = "Fifteen"
-		}
-		if game.P2point == 2 {
-			game.P2res = "Thirty"
-		}
-		score = game.P1res + "-" + game.P2res
+
+		return game.P1res + "-" + game.P2res
 	}
 	if game.P2point > game.P1point && game.P2point < 4 {
-		if game.P2point == 2 {
-			game.P2res = "Thirty"
-		}
-		if game.P2point == 3 {
-			game.P2res = "Forty"
-		}
-		if game.P1point == 1 {
-			game.P1res = "Fifteen"
-		}
-		if game.P1point == 2 {
-			game.P1res = "Thirty"
-		}
-		score = game.P1res + "-" + game.P2res
+
+		return game.P1res + "-" + game.P2res
 	}
 
 	//advantage
@@ -108,28 +87,27 @@ func (game *tennisGame2) GetScore() string {
 		score = "Advantage player2"
 	}
 
-	//win
-	if game.P1point >= 4 && game.P2point >= 0 && (game.P1point-game.P2point) >= 2 {
-		score = "Win for player1"
-	}
-	if game.P2point >= 4 && game.P1point >= 0 && (game.P2point-game.P1point) >= 2 {
-		score = "Win for player2"
-	}
 	return score
 }
 
-func (game *tennisGame2) P1Score() {
+func (game *tennisGame2) UpdateP1Score() {
 	game.P1point++
+	if game.P1point < 4 {
+		game.P1res = scoreMap[game.P1point]
+	}
 }
 
-func (game *tennisGame2) P2Score() {
+func (game *tennisGame2) UpdateP2Score() {
 	game.P2point++
+	if game.P2point < 4 {
+		game.P2res = scoreMap[game.P2point]
+	}
 }
 
 func (game *tennisGame2) WonPoint(player string) {
-	if player == "player1" {
-		game.P1Score()
+	if player == game.player1Name {
+		game.UpdateP1Score()
 	} else {
-		game.P2Score()
+		game.UpdateP2Score()
 	}
 }
