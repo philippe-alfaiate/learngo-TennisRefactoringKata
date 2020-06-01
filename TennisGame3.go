@@ -1,49 +1,48 @@
 package tenniskata
 
 type tennisGame3 struct {
-	p2  int
-	p1  int
-	p1N string
-	p2N string
+	player1Score int
+	player2Score int
+	player1Name  string
+	player2Name  string
 }
 
-func TennisGame3(p1N string, p2N string) TennisGame {
+func TennisGame3(player1Name string, player2Name string) TennisGame {
 	game := &tennisGame3{
-		p1N: p1N,
-		p2N: p2N}
+		player1Name: player1Name,
+		player2Name: player2Name}
 
 	return game
 }
 
 func (game *tennisGame3) GetScore() string {
 	var s string
-	if game.p1 < 4 && game.p2 < 4 && !(game.p1+game.p2 == 6) {
+	if game.player1Score < 4 && game.player2Score < 4 && game.player1Score+game.player2Score != 6 {
 		p := []string{"Love", "Fifteen", "Thirty", "Forty"}
-		s = p[game.p1]
-		if game.p1 == game.p2 {
+		s = p[game.player1Score]
+		if game.player1Score == game.player2Score {
 			return s + "-All"
 		}
-		return s + "-" + p[game.p2]
-	} else {
-		if game.p1 == game.p2 {
-			return "Deuce"
-		}
-		if game.p1 > game.p2 {
-			s = game.p1N
-		} else {
-			s = game.p2N
-		}
-		if (game.p1-game.p2)*(game.p1-game.p2) == 1 {
-			return "Advantage " + s
-		}
-		return "Win for " + s
+		return s + "-" + p[game.player2Score]
 	}
+	if game.player1Score == game.player2Score {
+		return "Deuce"
+	}
+	if game.player1Score > game.player2Score {
+		s = game.player1Name
+	} else {
+		s = game.player2Name
+	}
+	if (game.player1Score-game.player2Score)*(game.player1Score-game.player2Score) == 1 {
+		return "Advantage " + s
+	}
+	return "Win for " + s
 }
 
 func (game *tennisGame3) WonPoint(playerName string) {
-	if playerName == game.p1N {
-		game.p1++
+	if playerName == game.player1Name {
+		game.player1Score++
 	} else {
-		game.p2++
+		game.player2Score++
 	}
 }
