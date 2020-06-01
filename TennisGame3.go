@@ -41,9 +41,9 @@ func (game *tennisGame3) GetScore() string {
 }
 
 func (game *tennisGame3) WonPoint(playerName string) {
-	if playerName == "player1" {
-		game.p1 += 1
+	if playerName == game.p1N {
+		game.p1++
 	} else {
-		game.p2 += 1
+		game.p2++
 	}
 }
